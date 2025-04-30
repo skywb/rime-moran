@@ -11,8 +11,8 @@ schema:
     - moran_fixed
     - moran_sentence
     - moran_reverse
-    - moran_charset
     - moran_english
+    - moran_charset
     #- moran_japanese # 日語混輸
     - stroke
     - tiger
@@ -50,6 +50,7 @@ switches:
 
 engine:
   processors:
+    - lua_processor@*select_character
     - key_binder
     - lua_processor@*moran_pin*pin_processor
     - lua_processor@*moran_processor
@@ -100,12 +101,12 @@ engine:
     - simplifier@std_tw
     - simplifier@std_dzing
     - simplifier@simplifier
-    - lua_filter@*moran_charset_comment_filter  # Unicode 區位提示
-    - lua_filter@*moran_unicode_display_filter  # Unicode 編碼提示
+    # - lua_filter@*moran_charset_comment_filter  # Unicode 區位提示
+    # - lua_filter@*moran_unicode_display_filter  # Unicode 編碼提示
     - uniquifier
 
 speller:
-  alphabet: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ/;
+  alphabet: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`/;
   delimiter: " '"
   auto_select: true
   auto_select_pattern: ^;(\w+|;)
@@ -356,7 +357,7 @@ moran:
   # 開啓後，詞輔篩選的詞語會帶有輔助碼提示，例如「鏈接」後會有「jf」，
   # 意思是輸入 j *或* f 都可以定位到這個詞，而不是說要同時輸入 jf 兩個碼
   # （相反，同時輸入 jf 兩碼後反而無法得到該選項）。
-  enable_word_filter: false
+  enable_word_filter: true
   # 重設詞輔匹配提示符爲其他字符串。
   # 即輸入 lmjxz 時被詞輔匹配的候選「連接」的提示符，不影響輔助碼提示功能的輸出。
   # 設爲 "" 完全取消提示。
@@ -367,8 +368,8 @@ moran:
   # 當一個字具有簡碼時，打其全碼（不論是 yyxx 還是 yyxxo）都會導致該
   # 字讓出首位，而被推遲到後位。
   ijrq:
-    enable: true       # 是否啓用單字的出簡讓全？
-    #defer: 5          # 延遲多少位？若不設置该项，或值小於等於 0，則推遲到第二頁的首選
+    enable: false     # 是否啓用單字的出簡讓全？
+    defer: 2          # 延遲多少位？若不設置该项，或值小於等於 0，則推遲到第二頁的首選
     show_hint: true    # 若讓全，則提示簡碼打法
 
     # 詞語級「讓全」，對二、三、四字詞有效
@@ -388,13 +389,13 @@ moran:
 
   # 簡快碼提示（包括字和詞）
   # 例如 輸入 yy te er 英特爾 會提示「⚡yte」，即使用 yte 可以打出這個詞
-  enable_quick_code_hint: false
+  enable_quick_code_hint: true
   # 取消單字的簡快碼提示
   quick_code_hint_skip_chars: false
 
   # 輸入四碼時，如果簡碼碼表中含有對應條目，則放置在第二選項。
   show_chars_anyway: false   # 是否輸出簡碼碼表單字，例：輸入 jwrg 時，次選爲「佳」
-  show_words_anyway: true   # 是否輸出簡碼碼表詞語，例：輸入 lmsd 時，次選爲「兩面三刀」
+  show_words_anyway: false   # 是否輸出簡碼碼表詞語，例：輸入 lmsd 時，次選爲「兩面三刀」
 
   # 「置頂」功能相關設置
   # 輸入時通過快捷鍵 Ctrl+t 可以將高亮顯示的候選置頂，被置頂的候選位置固定，不再參與調頻
@@ -423,7 +424,7 @@ moran:
   # both: 允許繁體和簡體同時顯示
   # simp: 只顯示簡化字
   # trad: 只顯示繁體字
-  charset: both
+  charset: simp
 
 # 默認啓用語言模型
 __include: moran:/octagram/enable_for_sentence

@@ -33,7 +33,7 @@ algebra:
   # 用於生成用戶輸入碼的核心演算式
   generate_code:
     __append:
-      - derive|^(.+);(\w)(\w)$|$1$2$3o| # 全碼 YYXXo
+      - derive|^(.+);(\w)(\w)$|$1$2$3`| # 全碼 YYXXo
       - derive|^(.+);(\w)(\w)$|$1$2$3/| # 全碼 YYXX/
       - abbrev/^(.+);(\w)(\w)$/$1$2$3/  # 降低 YYXX 優先級
       - derive/^(.+);(\w)(\w)$/$1$2/    # 構詞可以用 YYX
@@ -49,6 +49,7 @@ key_bindings:
   moran_semicolon_for_2:
     __append:
       - { when: has_menu, accept: semicolon, send: "2" }
+      - { when: has_menu, accept: apostrophe, send: "3" }
 
   # 使用 tab 在不同音節間跳轉
   moran_tab:
@@ -59,13 +60,13 @@ key_bindings:
   # 一些功能的開關鍵
   moran_switches:
     __append:
-      - { when: has_menu, accept: "Control+s", toggle: simplification }
-      - { when: has_menu, accept: "Control+u", toggle: unicode_comment }
-      - { when: has_menu, accept: "Control+q", toggle: emoji }
-      - { when: composing, accept: "Control+x", toggle: extended_charset }
-      - { when: has_menu, accept: "Control+Shift+0", toggle: std_opencc }
-      - { when: has_menu, accept: "Control+i", toggle: chaifen }
-      - { when: has_menu, accept: "Control+period", toggle: pinyinhint }
+      # - { when: has_menu, accept: "Control+s", toggle: simplification }
+      # - { when: has_menu, accept: "Control+u", toggle: unicode_comment }
+      # - { when: has_menu, accept: "Control+q", toggle: emoji }
+      # - { when: composing, accept: "Control+x", toggle: extended_charset }
+      # - { when: has_menu, accept: "Control+Shift+0", toggle: std_opencc }
+      # - { when: has_menu, accept: "Control+i", toggle: chaifen }
+      # - { when: has_menu, accept: "Control+period", toggle: pinyinhint }
 
   # 使用大寫字母追加輸入到上一個音節末尾
   moran_capital_for_last_syllable:
@@ -125,14 +126,21 @@ octagram:
   enable_for_sentence:
     __patch:
       grammar:
-        language: zh-hant-t-essay-bgw
-        collocation_max_length: 4
+        # language: zh-hant-t-essay-bgw
+        language: zh-hans-t-huayu-v7-bgw
+        collocation_max_length: 5
         collocation_min_length: 3
+        collocation_penalty: -20
+        non_collocation_penalty: -20
+        weak_collocation_penalty: -26
+        rear_penalty: 0
+        entry_weight_ratio: 0.25
+        rear_collocation_ratio: 0.05
   enable_for_fixed:
     __patch:
       grammar:
-        language: zh-hant-t-essay-bgc
-        collocation_max_length: 4
+        language: zh-hans-t-essay-bgc
+        collocation_max_length: 6
         collocation_min_length: 2
       fixed/+:
         contextual_suggestions: true

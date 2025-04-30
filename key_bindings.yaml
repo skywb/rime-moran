@@ -1,6 +1,16 @@
 # Rime key bindings
 # encoding: utf-8
 
+vim_editing:
+  __append:
+    - { when: composing, accept: Control+p, send: Up }
+    - { when: composing, accept: Control+n, send: Down }
+    - { when: composing, accept: Control+k, send: Left }
+    - { when: composing, accept: Control+j, send: Right }
+    - { when: composing, accept: Control+h, send: BackSpace }
+    - { when: composing, accept: Control+y, send: Return }
+    - { when: composing, accept: Control+u, send: Escape }
+
 emacs_editing:
   __append:
     - { when: composing, accept: Control+p, send: Up }
@@ -12,11 +22,11 @@ emacs_editing:
     - { when: composing, accept: Control+d, send: Delete }
     - { when: composing, accept: Control+k, send: Shift+Delete }
     - { when: composing, accept: Control+h, send: BackSpace }
-    - { when: composing, accept: Control+g, send: Escape }
     - { when: composing, accept: Control+bracketleft, send: Escape }
     - { when: composing, accept: Control+y, send: Page_Up }
     - { when: composing, accept: Alt+v, send: Page_Up }
     - { when: composing, accept: Control+v, send: Page_Down }
+    - { when: composing, accept: Control+u, send: Escape }
 
 move_by_word_with_tab:
   __append:

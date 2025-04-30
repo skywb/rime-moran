@@ -40,6 +40,7 @@ switches:
 
 engine:
   processors:
+    - lua_processor@*select_character
     - ascii_composer
     - recognizer
     - key_binder
@@ -56,6 +57,7 @@ engine:
     - punct_segmentor
     - fallback_segmentor
   translators:
+    - lua_translator@*moran_shijian        # 日期orq 節氣ojq 星期oxq 時間osj
     - punct_translator
     - reverse_lookup_translator@reverse_tick
     - reverse_lookup_translator@reverse_universal
@@ -69,7 +71,7 @@ engine:
     #- table_translator@japanese            # 日語混輸
     - script_translator
   filters:
-    #- lua_filter@*moran_hint_filter           # 輔助碼提示需要去掉本行開頭的 # 符號
+    - lua_filter@*moran_hint_filter           # 輔助碼提示需要去掉本行開頭的 # 符號
     - lua_filter@*moran_charset_filter     # 字集過濾需要去掉本行開頭的 # 符號
     - simplifier@chaifen
     - simplifier@emoji
@@ -106,7 +108,7 @@ custom_phrase: # 自定義短語
   initial_quality: 10
 
 english:
-  # tag: english  # librime>=0.12 方可取消註釋
+  tag: english  # librime>=0.12 方可取消註釋
   dictionary: moran_english
   enable_completion: true
   enable_sentence: false
@@ -273,7 +275,7 @@ moran:
   # both: 允許繁體和簡體同時顯示
   # simp: 只顯示簡化字
   # trad: 只顯示繁體字
-  charset: both
+  charset: simp
 
 # 默認啓用語言模型
 __include: moran:/octagram/enable_for_sentence
