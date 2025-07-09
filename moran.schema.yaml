@@ -8,7 +8,7 @@ schema:
   description: |
     爲傳承字設計的自然碼及輔助碼智能整句輸入方案。
   dependencies:
-    - moran_fixed_simp
+    - moran_fixed
     - moran_sentence
     - moran_reverse
     - moran_english
@@ -106,7 +106,8 @@ engine:
     - uniquifier
 
 speller:
-  alphabet: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`/;
+  # alphabet: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`/;
+  alphabet: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`/
   delimiter: " '"
   auto_select: true
   auto_select_pattern: ^;(\w+|;)
@@ -129,7 +130,7 @@ translator:    # 整句輸入模式設置，在 top_translator 中被調用
     - xform/([a-z][a-z][a-z][a-z])o/$1°/
 
 fixed:         # 固頂輸入模式設置，在 top_translator 中被調用
-  dictionary: moran_fixed_simp
+  dictionary: moran_fixed
   initial_quality: 100
   enable_completion: false
   enable_sentence: false
