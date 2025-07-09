@@ -37,7 +37,7 @@ class Table:
             except KeyError as e:
                 print('# 無法編碼 %s : %s' % (word, str(e)))
                 return
-        if len(word) == 1 and self.has_quick_code(word, code):
+        if len(word) == 1 and code[-1] == 'o' and len(code) == 5 and self.has_quick_code(word, code):
             # print('讓全', word, code)
             w = -1
         self.w2c[word].append(code)
@@ -117,7 +117,7 @@ def main(args):
     # additional chars
     with open('../moran.chars.dict.yaml', 'r') as f:
         for l in f:
-            matches = re.findall(r'(\w+)	([a-z]+;[a-z]+)	(\d+)', l)
+            matches = re.findall(r'^([^\t]+)\t([a-z]+;[a-z]+)\t(\d+)', l)
             if not matches: continue
             char, code, w = matches[0]
             w = int(w)
@@ -126,7 +126,7 @@ def main(args):
     # liangfen
     with open('../zrlf.dict.yaml', 'r') as f:
         for l in f:
-            matches = re.findall(r'(\w+)	([a-z]+)', l)
+            matches = re.findall(r'([^\t]+)\t([a-z]+)', l)
             if not matches: continue
             char, code = matches[0]
             table.add(char, 'olf' + code)

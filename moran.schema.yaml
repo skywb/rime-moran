@@ -202,6 +202,8 @@ pinyinhint:
   opencc_config: moran_pinyinhint.json
   tips: char
   show_in_comment: true
+  comment_format:
+    __include: :/chaifen/comment_format
 
 emoji:
   opencc_config: moran_emoji.json
@@ -306,7 +308,8 @@ key_binder:
   import_preset: default
   custom_bindings:
     __append:
-      # 在這裏添加只在本方案中生效的按鍵綁定
+      # 在這裏添加只在本方案中生效的按鍵綁定，如
+      # - { when: has_menu, accept: apostrophe, send: '3' }  # 單引號3選
   bindings:
     __patch:
       - :/key_binder/custom_bindings?
@@ -325,7 +328,7 @@ recognizer:
     reverse_zrlf: "^U[A-Za-z]*$"
     punct: '^/([0-9]0?|[A-Za-z]+)$'
     # 反查
-    reverse_universal: "(^(`[a-z`]+))|(^([a-z]{2}(`[a-z`]?|[a-z`]`)))"
+    reverse_universal: "(^(`[a-z`]+))|(^([a-z]{2}(`[a-z`]?|[a-z`]`))|^([a-z]{4}`))"
     reverse_tick: "(^`$)|(^`[a-zA-Z]+$)"
     reverse_tiger: "^ohm[a-z]+$"
     reverse_stroke: "^obh[A-Za-z]*$"
@@ -340,8 +343,12 @@ recognizer:
 
 recognizer_secondary:
   patterns:
-    # {4} 表示輸入長度達到 4 後開始輸出英語
-    english: '^[A-Za-z]{4}[A-Za-z]*'
+    # 1. 輸入長度達到 4 後開始輸出英語 *或* 前 4 字母中有大寫字母
+    english: '(^[A-Za-z]{4}[A-Za-z]*)|(^[A-Z][A-Za-z]*)|(^[a-z][A-Z][a-zA-Z]*)|(^[a-z][a-z][A-Z][a-zA-Z]*)'
+    # 2. 對任何輸入都輸出英語
+    # english: '.*'
+    # 3. 輸入長度達到 4 後開始輸出英語
+    # english: '^[A-Za-z]{4}[A-Za-z]*'
 
 moran:
   # 簡快碼提示符
@@ -396,8 +403,10 @@ moran:
   quick_code_hint_skip_chars: false
 
   # 輸入四碼時，如果簡碼碼表中含有對應條目，則放置在第二選項。
-  show_chars_anyway: false   # 是否輸出簡碼碼表單字，例：輸入 jwrg 時，次選爲「佳」
-  show_words_anyway: false   # 是否輸出簡碼碼表詞語，例：輸入 lmsd 時，次選爲「兩面三刀」
+  inject_fixed_chars: false   # 是否輸出簡碼碼表單字，例：輸入 jwrg 時，次選爲「佳」
+  inject_fixed_words: true    # 是否輸出簡碼碼表詞語，例：輸入 lmsd 時，次選爲「兩面三刀」
+  # (僅*動詞模式*) 是否優先輸出單字或詞組
+  inject_prioritize: "any"    # char 優先單字, word 優先詞組，其他取值理解爲按碼表順序
 
   # 「置頂」功能相關設置
   # 輸入時通過快捷鍵 Ctrl+t 可以將高亮顯示的候選置頂，被置頂的候選位置固定，不再參與調頻
@@ -427,6 +436,18 @@ moran:
   # simp: 只顯示簡化字
   # trad: 只顯示繁體字
   charset: simp
+
+  # 重複略碼功能
+  # 一些輸入中存在字詞重複，如「好不好」「看了看」「想一想」。
+  # 略碼提供了替代的輸入方法，在輸入完一些字後，按對應 Shift+<對應鍵> 調用響應功能。
+  # 默認提供的略碼有：
+  # B: 輸入 hkB 直接上屏「好不好」。
+  # L: 輸入 kjL 直接上屏「看了看」。
+  # Y: 輸入 xdY 直接上屏「想一想」。
+  # V: 輸入 uoV 直接上屏「說着說着」。
+  # Q: 輸入 pkQ 直接上屏「跑來跑去」。
+  # （如需要自定義/增加/刪除略碼，請編輯 moran_processor.lua 中的 shorthands 定義。）
+  shorthands: false
 
 # 默認啓用語言模型
 __include: moran:/octagram/enable_for_sentence
