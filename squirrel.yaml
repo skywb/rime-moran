@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 # 要比共享目錄同名文件版本號更大方可生效
-config_version: '2023-09-01'
+config_version: '2099-09-01'
 
 # options: last | default | _custom_
 # last: the last used latin keyboard layout
@@ -89,8 +89,7 @@ preset_color_schemes:
     hilited_candidate_text_color: 0xF0F0F0
     hilited_comment_text_color: 0xF0F0F0
     # hilited_corner_radius: 5                  #第一候选字高亮颜色的圆角，当不设置时就是一整块的颜色，设置了圆角之后就带有圆角效果了
-  
-
+    
   aqua:
     name: 碧水／Aqua
     author: 佛振 <chen.sst@gmail.com>
