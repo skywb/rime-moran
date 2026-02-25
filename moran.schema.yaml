@@ -353,7 +353,8 @@ moran:
   # 簡快碼提示符
   # 修改爲 "" 可取消提示符
   # 建議在熟悉簡碼後再取消
-  quick_code_indicator: "⚡️"
+  # quick_code_indicator: "⚡️"
+  quick_code_indicator: ""
 
   # 在造詞/造句選字過程中亦使用固頂簡快碼，默認開啓
   # 若設爲 false，則造詞時過程中完全不使用簡碼
